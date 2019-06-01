@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:20:45 by lgigi             #+#    #+#             */
-/*   Updated: 2019/05/30 16:21:48 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/01 20:02:01 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	bulltin_cd(char **parse, t_env **e)
 		write(2, "cd: too many arguments\n", 23);
 		return ;
 	}
-	parse[1] = clear_path(parse[1]);
+	parse[1] = (parse[1]) ? clear_path(parse[1]) : 0;
 	if (parse[1] && parse[1][0] != '-' && parse[1][0] != '~'\
 		&& !(parse[1][0]  == '$' && parse[1][1]) \
 		&& access(parse[1], F_OK | R_OK))

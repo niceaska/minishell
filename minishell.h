@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 10:53:36 by lgigi             #+#    #+#             */
-/*   Updated: 2019/05/30 21:55:03 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/01 19:47:08 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,22 @@
 # include <sys/types.h>
 # include <errno.h>
 # include <dirent.h>
-# include <stdio.h>
 # include <sys/dir.h>
 # include <limits.h>
 # include <sys/wait.h>
 # include <linux/limits.h>
+# include <stdio.h>
+# include <signal.h> 
+# include <readline/history.h>
+# include <readline/readline.h>
 
+# define FL_AUTO (1 << 0)
 
 typedef struct	s_env
 {
-	char	*currpath;
 	char	*home;
 	char	**e;
+	short	flags;
 }				t_env;
 
 char			*get_pathname(char **e, char *var);
@@ -47,5 +51,14 @@ char			*clear_path(char *path);
 void			bull_echo(char **parse, t_env **e);
 void			process_exec(char **parse, t_env **e);
 char			**ft_splitwhitesp(char const *s);
+char			**ag_compl(const char *text, int start, int end);
+void			signal_handler(int sign);
+void			signal_exec_handler(int sig);
+void			ft_exit(char **tab, char **parse, t_env *e, short fl);
+void			free_tab(char **tab);
+char			**cpy_envv(char **ev);
+
+
+
 
 #endif

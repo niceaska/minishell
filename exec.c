@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 18:24:03 by lgigi             #+#    #+#             */
-/*   Updated: 2019/05/30 21:40:58 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/01 19:25:34 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,14 @@ char	*looking_pathname(char *path, char **env,
 		swp = path;
 		path = ft_strjoin(path_var[i], path);
 		if (!access(path, F_OK))
-		{
-			if (access(path, R_OK))
-				write(2, "minishell: permission denied\n", 29);
 			break ;
-		}
 		ft_memdel((void *)&path);
 		path = swp;
 	}
 	(!path_var || !path_var[i]) ?\
 			write(2, "minishell: command not found\n", 29) : 0;
 	(path_var[i]) ? ft_memdel((void *)&swp) : 0;
-	(!path_var || !path_var[i] || access(path, R_OK)) ?\
-								ft_memdel((void *)&path) : 0;
+	(!path_var || !path_var[i]) ? ft_memdel((void *)&path) : 0;
 	free_tab(path_var);
 	return (path);
 }
@@ -70,18 +65,22 @@ char	*find_rpath(char *path, char **env)
 	return (looking_pathname(path, env, NULL, NULL));
 }
 
+
 void	exec_program(char *path, char **args, char **env)
 {
 	pid_t pid;
 	pid_t ch_pid;
 
 	pid = fork();
+	signal(SIGINT, signal_exec_handler);
 	if (pid == 0)
 	{
 		execve(path, args, env);
+
 	}
 	else if (pid > 0)
 	{
+
 		while ((ch_pid = wait(0)) != -1)
 			;
 		if (errno != ECHILD)
@@ -98,8 +97,12 @@ void	process_exec(char **parse, t_env **e)
 	parse[0] = clear_path(parse[0]);
 	if (!(pathname = find_rpath(ft_strdup(parse[0]), (*e)->e)))
 		return ;
-	if (pathname && access(pathname, R_OK))
+	if (pathname && access(pathname, R_OK | X_OK))
+	{
 		write(2, "minishell: permission denied\n", 29);
+		free(pathname);
+		return ;
+	}
 	exec_program(pathname, parse, (*e)->e);
 	free(pathname);
 }
