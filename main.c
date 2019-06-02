@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 10:52:16 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/01 19:54:54 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/02 20:32:04 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static char		**process_prompt(t_env *e)
 		rl_readline_name = "Minishell";
 		rl_attempted_completion_function = ag_compl;
 		line = readline("$> ");
-		if (ft_strlen(line) > 0)
+		if (line && ft_strlen(line) > 0)
 			add_history(line);
 	}
 	(!(e->flags & FL_AUTO)) ? write(1, "$> ", 3) : 0;
-	parse = (e->flags & FL_AUTO) ? ft_strsplit(line, ';') : 0;
+	parse = ((e->flags & FL_AUTO) && line) ? ft_strsplit(line, ';') : 0;
 	if (!(e->flags & FL_AUTO) && \
 		(rd = get_next_line(0, &line)) == 1)
 		parse = ft_strsplit(line, ';');
