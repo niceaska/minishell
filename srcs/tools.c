@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 11:03:48 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 13:18:59 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 20:06:29 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ unsigned int	tab_size(char **tab)
 	unsigned int i;
 
 	i = 0;
+	if (!tab)
+		return (0);
 	while (tab[i])
 		i++;
 	return (i);

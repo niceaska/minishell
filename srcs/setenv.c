@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 15:35:05 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 13:36:14 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 17:58:27 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**realloc_env(char **tab, char *str)
 	int				i;
 
 	i = 0;
-	new_size = tab_size(tab) + 1;
+	new_size = (tab_size(tab) == 0) ? 2 : tab_size(tab) + 1;
 	if (!(new = (char **)malloc(sizeof(char *) * (new_size + 1))))
 		return (NULL);
 	while (tab[i])
@@ -73,7 +73,7 @@ char	**setenv_bulltin(char **parse, char **env)
 	if (!ft_isalpha(parse[1][0]))
 	{
 		write(2, "setenv: not an identifier: ", 27);
-		write(2., parse + 2, ft_strlen(parse[2]));
+		write(2, parse[1], ft_strlen(parse[1]));
 		write(2, "\n", 1);
 		return (env);
 	}

@@ -6,21 +6,11 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 18:24:03 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 11:54:48 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 21:03:39 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-
-char	*add_slash(char *path)
-{
-	char *swp;
-
-	swp = path;
-	path = ft_strjoin(path, "/");
-	free(swp);
-	return (path);
-}
 
 char	*looking_pathname(char *path, char **env,
 							char **path_var, char *swp)
@@ -28,8 +18,10 @@ char	*looking_pathname(char *path, char **env,
 	int		i;
 
 	i = -1;
+	if (!env || !get_pathname(env, "PATH"))
+		return (NULL);
 	path_var = ft_strsplit(get_pathname(env, "PATH"), ':');
-	while (path_var[++i])
+	while (path_var && path_var[++i])
 	{
 		path_var[i] = add_slash(path_var[i]);
 		swp = path;
@@ -41,9 +33,9 @@ char	*looking_pathname(char *path, char **env,
 	}
 	(!path_var || !path_var[i]) ?\
 			write(2, "minishell: command not found\n", 29) : 0;
-	(path_var[i]) ? ft_memdel((void *)&swp) : 0;
+	(path_var && path_var[i]) ? ft_memdel((void *)&swp) : 0;
 	(!path_var || !path_var[i]) ? ft_memdel((void *)&path) : 0;
-	free_tab(path_var);
+	(path_var) ? free_tab(path_var) : 0;
 	return (path);
 }
 
@@ -74,12 +66,14 @@ void	exec_program(char *path, char **args, char **env)
 	pid = fork();
 	signal(SIGINT, signal_exec_handler);
 	if (pid == 0)
+	{
 		execve(path, args, env);
+		exit(0);
+	}
 	else if (pid > 0)
 	{
 		while ((ch_pid = wait(0)) != -1)
 			;
-
 		if (errno != ECHILD)
 			write(2, "minishell: wait error\n", 22);
 	}
@@ -87,7 +81,7 @@ void	exec_program(char *path, char **args, char **env)
 		write(2, "minishell: fork error\n", 22);
 }
 
-void	process_exec(char **parse, t_env **e)
+void	process_exec(char **parse, t_env **e, int fl)
 {
 	char *pathname;
 
@@ -100,6 +94,9 @@ void	process_exec(char **parse, t_env **e)
 		free(pathname);
 		return ;
 	}
-	exec_program(pathname, parse, (*e)->e);
+	if (fl)
+		exec_program(pathname, parse, (*e)->e);
+	else
+		exec_program(pathname, parse, 0);
 	free(pathname);
 }

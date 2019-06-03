@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 19:39:52 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/01 19:47:23 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 20:08:15 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	ft_exit(char **tab, char **parse, t_env *e, short fl)
 		free_tab(parse);
 	if (e)
 	{
-		free_tab(e->e);
+		if (e->e)
+			free_tab(e->e);
 		free(e);
 	}
 	exit(fl);
@@ -57,16 +58,24 @@ void	ft_exit(char **tab, char **parse, t_env *e, short fl)
 char	**cpy_envv(char **ev)
 {
 	char			**new;
+	unsigned int	size;
 	int				i;
 
 	i = 0;
-	if (!(new = (char **)malloc(sizeof(char *) * (tab_size(ev) + 1))))
+	size = 0;
+	if (!(size = tab_size(ev)))
+		size = 1;
+	if (!get_pathname(ev, "PATH"))
+		size += 1;
+	if (!(new = (char **)malloc(sizeof(char *) * (size + 1))))
 		return (NULL);
-	while (ev[i])
+	while (ev && ev[i])
 	{
 		new[i] = ft_strdup(ev[i]);
 		i++;
 	}
+	if (!get_pathname(ev, "PATH"))
+		new[i++] = ft_strdup("PATH=");
 	new[i] = NULL;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 10:52:16 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 13:36:42 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 20:45:28 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_env	*init_env(char **ev, char **ag, int ac)
 		return (NULL);
 	}
 	e->home = get_pathname(e->e, "HOME");
-	ft_setenv("TERM", "minishell", e->e);
+	e->e = ft_setenv("TERM", "minishell", e->e);
 	e->flags = 0;
 	if (ac >= 2)
 		if (ag[1][0] == '-' && ag[1][1] == 'a')
@@ -51,17 +51,15 @@ static char		**process_prompt(t_env *e)
 	parse = ((e->flags & FL_AUTO) && line) ? ft_strsplit(line, ';') : 0;
 	if (!(e->flags & FL_AUTO) && \
 		(rd = get_next_line(0, &line)) == 1)
-		parse = ft_strsplit(line, ';');
+		parse = (line) ? ft_strsplit(line, ';') : 0;
 	ft_memdel((void *)&line);
 	return (parse);
 }
 
 static void		ft_run_commands(char **tab, char **parse, t_env **env)
 {
-	if (!ft_strcmp(parse[0], "pwd"))
-		print_currpath(parse);
-	else if (!ft_strcmp(parse[0], "env"))
-		print_env((*env)->e);
+	if (!ft_strcmp(parse[0], "env"))
+		process_env_bull(parse, env);
 	else if (!ft_strcmp(parse[0], "setenv"))
 		(*env)->e = setenv_bulltin(parse, (*env)->e);
 	else if (!ft_strcmp(parse[0], "unsetenv"))
@@ -73,7 +71,7 @@ static void		ft_run_commands(char **tab, char **parse, t_env **env)
 	else if (!ft_strcmp(parse[0], "echo"))
 		bull_echo(parse, env);
 	else
-		process_exec(parse, env);
+		process_exec(parse, env, 1);
 }
 
 static void		process_input(char **tab, t_env **env)
@@ -92,7 +90,7 @@ static void		process_input(char **tab, t_env **env)
 		}
 		if (*parse)
 			ft_run_commands(tab, parse, env);
-		free_tab(parse);
+		(parse) ? free_tab(parse) : 0;
 	}
 }
 

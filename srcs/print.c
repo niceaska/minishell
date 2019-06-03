@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 16:49:37 by lgigi             #+#    #+#             */
-/*   Updated: 2019/05/30 17:38:31 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 17:43:18 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void 	print_env(char **env)
 	int i;
 
 	i = 0;
-	while (env[i])
-		ft_putendl(env[i++]);
+	if (env && *env)
+		while (env[i])
+			ft_putendl(env[i++]);
 }
 
 void	bull_echo(char **parse, t_env **e)

@@ -6,7 +6,7 @@
 #    By: lgigi <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/03 13:20:35 by lgigi             #+#    #+#              #
-#    Updated: 2019/06/03 13:32:25 by lgigi            ###   ########.fr        #
+#    Updated: 2019/06/03 18:44:06 by lgigi            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ all: $(NAME)
 $(NAME): $(SRCS)
 	make -C libft
 	$(CC) $(CFLAGS) -c $(SRCS) -I $(INC) -I $(LIBFT_DIR)$(INC)
-	$(CC) $(CFLAGS) $(OBJS) -o  $(NAME) -L libft/ -lft -lreadline
+	$(CC) $(CFLAGS) $(OBJS) -o   $(NAME) -L libft/ -lft -lreadline
 
 clean:
 	make clean -C ./libft

@@ -6,34 +6,26 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:20:45 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/01 20:02:01 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 17:39:08 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-int		print_currpath(char **parse)
+char	*add_slash(char *path)
 {
-	char *path;
+	char *swp;
 
-	if (parse[1])
-	{
-		write(2, "pwd: too many arguments\n", 24);
-		return (1);
-	}
-	if (!(path = getcwd(0, 0)))
-		return (0);
-	ft_putendl(path);
-	free(path);
-	return (1);
+	swp = path;
+	path = ft_strjoin(path, "/");
+	free(swp);
+	return (path);
 }
 
-void	process_cd(char *path, t_env **e)
+static char		*choose_pathname(char *path, t_env **e)
 {
-	char	currpath[PATH_MAX];
-	char	*pathname;
+	char *pathname;
 
-	getcwd(currpath, PATH_MAX);
 	if (!path || (path[0] == '~' && !path[1]))
 		pathname = ft_strdup((*e)->home);
 	else if (path[0] == '-' && !path[1])
@@ -48,7 +40,18 @@ void	process_cd(char *path, t_env **e)
 			pathname = ft_strdup(get_pathname((*e)->e, path + 1));
 	}
 	else
-		pathname = ft_strdup(path);	
+		pathname = ft_strdup(path);
+	return (pathname);
+}
+
+void	process_cd(char *path, t_env **e)
+{
+	char	currpath[PATH_MAX];
+	char	*pathname;
+
+	ft_bzero((void *)currpath, PATH_MAX);
+	getcwd(currpath, PATH_MAX);
+	pathname = choose_pathname(path, e);
 	chdir(pathname);
 	(*e)->e = ft_setenv("OLDPWD", currpath, (*e)->e);
 	getcwd(currpath, PATH_MAX);
@@ -56,18 +59,16 @@ void	process_cd(char *path, t_env **e)
 	free(pathname);
 }
 
-void	bulltin_cd(char **parse, t_env **e)
+static int	check_errors(char *arg)
 {
-	if (parse[1] && parse[2])
+	int error;
+
+	error = 0;
+	if (arg && arg[0] != '-' && arg[0] != '~'\
+		&& !(arg[0]  == '$' && arg[1]) \
+		&& access(arg, F_OK | R_OK))
 	{
-		write(2, "cd: too many arguments\n", 23);
-		return ;
-	}
-	parse[1] = (parse[1]) ? clear_path(parse[1]) : 0;
-	if (parse[1] && parse[1][0] != '-' && parse[1][0] != '~'\
-		&& !(parse[1][0]  == '$' && parse[1][1]) \
-		&& access(parse[1], F_OK | R_OK))
-	{
+		error = 1;
 		write(2, "cd: ", 4);
 		if (errno == EACCES)
 			write(2, "permission denied\n", 18);
@@ -77,6 +78,26 @@ void	bulltin_cd(char **parse, t_env **e)
 			write(2, "no such file or directory\n", 26);
 		else if (errno == ENAMETOOLONG)
 			write(2, "pathname is too long\n", 21);
+	}
+	return (error);
+}
+
+void	bulltin_cd(char **parse, t_env **e)
+{
+	struct stat		st;
+
+	if (parse[1] && parse[2])
+	{
+		write(2, "cd: too many arguments\n", 23);
+		return ;
+	}
+	parse[1] = (parse[1]) ? clear_path(parse[1]) : 0;
+	if (check_errors(parse[1]))
+		return ;
+	stat(parse[1], &st);
+	if (!S_ISDIR(st.st_mode) && !S_ISLNK(st.st_mode))
+	{
+		write(2, "cd: not a directory\n", 20);
 		return ;
 	}
 	return (process_cd(parse[1], e));
