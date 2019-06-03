@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 10:58:40 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/01 12:45:17 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 13:39:56 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	*args_generator(const char *text, int state)
 char	**ag_compl(const char *text, int start, int end)
 {
     rl_attempted_completion_over = 0;
+    (void)end;
     return (!start ?
 		rl_completion_matches(text, args_generator) : 0);
 }

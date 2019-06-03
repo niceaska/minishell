@@ -6,14 +6,14 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 10:53:36 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/01 19:47:08 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 13:32:51 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MINISHELL_H
 # define FT_MINISHELL_H
 
-# include "libft/includes/libft.h"
+# include <libft.h>
 # include <sys/types.h>
 # include <errno.h>
 # include <dirent.h>
@@ -57,8 +57,5 @@ void			signal_exec_handler(int sig);
 void			ft_exit(char **tab, char **parse, t_env *e, short fl);
 void			free_tab(char **tab);
 char			**cpy_envv(char **ev);
-
-
-
 
 #endif

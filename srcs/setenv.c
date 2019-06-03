@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 15:35:05 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 13:11:53 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 13:36:14 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**setenv_bulltin(char **parse, char **env)
 	return (ft_setenv(parse[1], parse[2], env));
 }
 
-char	**ft_unsetenv(char *var, char **env, int index)
+char	**ft_unsetenv(char **env, int index)
 {
 	int		i;
 	int		j;
@@ -117,7 +117,7 @@ char	**unsetenv_bulltin(char **parse, char **env)
 	str[ft_strlen(str)] = (!ft_strchr(str, '=')) ? '=' : '\0';
 	if ((index = find_var(env, str)) == -1)
 		return (env);
-	ret = ft_unsetenv(str, env, index);
+	ret = ft_unsetenv(env, index);
 	free(str);
 	return (ret);
 }

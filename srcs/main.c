@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 10:52:16 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 12:04:44 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 13:36:42 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static char		**process_prompt(t_env *e)
 {
 	char	*line;
 	int		rd;
-	char	buf;
 	char	**parse;
 
 	line = 0;
