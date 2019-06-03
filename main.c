@@ -6,13 +6,13 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 10:52:16 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/02 20:32:04 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 12:04:44 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_env	*init_env(char **ev)
+static t_env	*init_env(char **ev, char **ag, int ac)
 {
 	t_env *e;
 
@@ -24,7 +24,11 @@ static t_env	*init_env(char **ev)
 		return (NULL);
 	}
 	e->home = get_pathname(e->e, "HOME");
-	e->flags = 1;
+	ft_setenv("TERM", "minishell", e->e);
+	e->flags = 0;
+	if (ac >= 2)
+		if (ag[1][0] == '-' && ag[1][1] == 'a')
+			e->flags |= FL_AUTO;
 	return (e);
 }
 
@@ -35,6 +39,7 @@ static char		**process_prompt(t_env *e)
 	char	buf;
 	char	**parse;
 
+	line = 0;
 	if ((e->flags & FL_AUTO))
 	{
 		rl_readline_name = "Minishell";
@@ -97,7 +102,7 @@ int				main(int ac, char **ag, char **ev)
 	t_env	*env;
 	char	**tab;
 
-	if (!(env = init_env(ev)))
+	if (!(env = init_env(ev, ag, ac)))
 		return (1);
 	write(1, "Minishell v0.9b\n", 16);
 	while (1)

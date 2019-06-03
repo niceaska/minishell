@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 11:03:48 by lgigi             #+#    #+#             */
-/*   Updated: 2019/05/30 18:21:27 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 13:18:59 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,20 @@ char	**realloc_var(char **tab, char *str, int i)
 
 char	*clear_path(char *path)
 {
-	char *swp;
+	char			*swp;
+	unsigned int	pth_s;
 
+	pth_s = ft_strlen(path);
 	if (path[0] != '"' && \
-		path[ft_strlen(path) - 1] !=  '"')
+		path[pth_s - 1] !=  '"')
 		return (path);
-	path[ft_strlen(path) - 1] = '\0';
-	swp = path;
-	path = ft_strdup(path + 1);
-	free(swp);
+	if (path[pth_s - 1] ==  '"')
+		path[pth_s - 1] = '\0';
+	if (*path == '"')
+	{
+		swp = path;
+		path = ft_strdup(path + 1);
+		free(swp);
+	}
 	return (path);
 }

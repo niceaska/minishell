@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 18:24:03 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/01 19:25:34 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 11:54:48 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,12 @@ void	exec_program(char *path, char **args, char **env)
 	pid = fork();
 	signal(SIGINT, signal_exec_handler);
 	if (pid == 0)
-	{
 		execve(path, args, env);
-
-	}
 	else if (pid > 0)
 	{
-
 		while ((ch_pid = wait(0)) != -1)
 			;
+
 		if (errno != ECHILD)
 			write(2, "minishell: wait error\n", 22);
 	}

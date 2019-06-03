@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 15:35:05 by lgigi             #+#    #+#             */
-/*   Updated: 2019/05/29 21:29:25 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/03 13:11:53 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ char	**ft_setenv(char *var, char *value, char **env)
 	len = ft_strlen(var) + ft_strlen(val) + 1;
 	putstr = ft_strnew(len);
 	ft_strcpy(putstr, var);
-	putstr[ft_strlen(putstr)] = '=';
+	putstr[ft_strlen(putstr)] = (!ft_strchr(putstr, '=')) ? '=' : '\0';
 	swp = putstr;
 	putstr = ft_strjoin(putstr, val);
-	free(swp);
-	if ((ret = find_var(env, var)) != -1)
+	if ((ret = find_var(env, swp)) != -1)
 		env = realloc_var(env, putstr, ret);
 	else
 		env = realloc_env(env, putstr);
+	free(swp);
 	free(putstr);
 	free(val);
 	return (env);
@@ -80,22 +80,19 @@ char	**setenv_bulltin(char **parse, char **env)
 	return (ft_setenv(parse[1], parse[2], env));
 }
 
-char	**ft_unsetenv(char *var, char **env)
+char	**ft_unsetenv(char *var, char **env, int index)
 {
 	int		i;
 	int		j;
 	char	**new;
-	int		var_ind;
 
 	i = 0;
 	j = 0;
-	if ((var_ind = find_var(env, var)) == -1)
-		return (env);
 	if (!(new = (char **)malloc(sizeof(char *) * tab_size(env))))
 		return (NULL);
 	while (env[i])
 	{
-		if (i != var_ind)
+		if (i != index)
 			new[j++] = ft_strdup(env[i]);
 		i++;
 	}
@@ -106,13 +103,21 @@ char	**ft_unsetenv(char *var, char **env)
 
 char	**unsetenv_bulltin(char **parse, char **env)
 {
+	char	*str;
+	char	**ret;
+	int		index;
+
 	if (!parse[1])
 	{
 		write(2, "unsetenv: not enough arguments\n", 31);
 		return (env);
-
 	}
-	if (find_var(env, parse[1]) == -1)
+	str = ft_strnew(ft_strlen(parse[1]) + 1);
+	ft_strcpy(str, parse[1]);
+	str[ft_strlen(str)] = (!ft_strchr(str, '=')) ? '=' : '\0';
+	if ((index = find_var(env, str)) == -1)
 		return (env);
-	return (ft_unsetenv(parse[1], env));
+	ret = ft_unsetenv(str, env, index);
+	free(str);
+	return (ret);
 }
