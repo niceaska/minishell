@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 21:03:12 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 21:12:24 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 13:33:42 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,19 @@ static void		fill_envv(char **parse, char **envv, int i)
 			break ;
 		else
 			envv = ft_setenv(parse[i], "", envv);
+	if (access(parse[i], F_OK | R_OK))
+	{
+		write(2, "env: ", 5);
+		if (errno == EACCES)
+			write(2, "permission denied\n", 18);
+		else if (errno == ENOENT)
+			write(2, "no such file or directory\n", 26);
+		else if (errno == ENAMETOOLONG)
+			write(2, "pathname is too long\n", 21);
+		return ;
+	}
 	exec_program(parse[i], parse + i, envv);
-	free_tab(evv);
+	free_tab(envv);
 }
 
 void		process_env_bull(char **parse, t_env **e, int j)

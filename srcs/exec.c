@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 18:24:03 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 21:03:39 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 14:36:37 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ char	*looking_pathname(char *path, char **env,
 	int		i;
 
 	i = -1;
-	if (!env || !get_pathname(env, "PATH"))
-		return (NULL);
-	path_var = ft_strsplit(get_pathname(env, "PATH"), ':');
+	if (env && get_pathname(env, "PATH"))
+		path_var = ft_strsplit(get_pathname(env, "PATH"), ':');
 	while (path_var && path_var[++i])
 	{
 		path_var[i] = add_slash(path_var[i]);

@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 19:39:52 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 20:08:15 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 13:52:23 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,6 @@ void	free_tab(char **tab)
 				free(tab[i++]);
 		free(tab);
 	}
-}
-
-void	ft_exit(char **tab, char **parse, t_env *e, short fl)
-{
-	if (tab)
-		free_tab(tab);
-	if (parse)
-		free_tab(parse);
-	if (e)
-	{
-		if (e->e)
-			free_tab(e->e);
-		free(e);
-	}
-	exit(fl);
 }
 
 char	**cpy_envv(char **ev)

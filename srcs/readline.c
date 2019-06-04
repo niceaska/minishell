@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 10:58:40 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 13:39:56 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 17:53:38 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*g_commands[] = {
 	"cat", "cd", "delete", "ls", "clear", "pwd",
 	"valgrind", "mkdir", "rm", "rmdir", "gcc", "cp",
 	"env", "setenv", "unsetenv", "emacs", "vim", "touch",
-	"man", "mv", "exit", (char *)NULL,
+	"man", "mv", "exit", "echo", (char *)NULL,
 };
 
 char	*args_generator(const char *text, int state)

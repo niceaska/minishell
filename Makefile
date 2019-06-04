@@ -6,7 +6,7 @@
 #    By: lgigi <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/03 13:20:35 by lgigi             #+#    #+#              #
-#    Updated: 2019/06/03 18:44:06 by lgigi            ###   ########.fr        #
+#    Updated: 2019/06/04 13:57:25 by lgigi            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS = -Wall -Werror -Wextra
 LIBFT_DIR = ./libft/
 INC = includes/
 SRC_DIR = ./srcs/
-FILES =  print.c bulltin_cd.c exec.c tools.c main.c readline.c utils.c setenv.c split_whitspaces.c
+FILES =  print.c exit_bulltin.c process_env_bulltin.c bulltin_cd.c exec.c tools.c main.c readline.c utils.c setenv.c split_whitspaces.c
 SRCS = $(addprefix $(SRC_DIR), $(FILES))
 OBJS = $(FILES:.c=.o)
 

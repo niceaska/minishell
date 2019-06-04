@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 10:52:16 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 20:45:28 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 17:57:38 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static t_env	*init_env(char **ev, char **ag, int ac)
 		free(e);
 		return (NULL);
 	}
-	e->home = get_pathname(e->e, "HOME");
+	if (get_pathname(e->e, "HOME"))
+		e->home = ft_strdup(get_pathname(e->e, "HOME"));
 	e->e = ft_setenv("TERM", "minishell", e->e);
 	e->flags = 0;
 	if (ac >= 2)
@@ -59,7 +60,7 @@ static char		**process_prompt(t_env *e)
 static void		ft_run_commands(char **tab, char **parse, t_env **env)
 {
 	if (!ft_strcmp(parse[0], "env"))
-		process_env_bull(parse, env);
+		process_env_bull(parse, env, 0);
 	else if (!ft_strcmp(parse[0], "setenv"))
 		(*env)->e = setenv_bulltin(parse, (*env)->e);
 	else if (!ft_strcmp(parse[0], "unsetenv"))
@@ -67,7 +68,7 @@ static void		ft_run_commands(char **tab, char **parse, t_env **env)
 	else if (!ft_strcmp(parse[0], "cd"))
 		bulltin_cd(parse, env);
 	else if (!ft_strcmp(parse[0], "exit"))
-		ft_exit(tab, parse, *env, 0);
+		process_exit(tab, parse, *env);
 	else if (!ft_strcmp(parse[0], "echo"))
 		bull_echo(parse, env);
 	else
@@ -101,7 +102,7 @@ int				main(int ac, char **ag, char **ev)
 
 	if (!(env = init_env(ev, ag, ac)))
 		return (1);
-	write(1, "Minishell v0.9b\n", 16);
+	write(1, "Minishell v1.0\n", 15);
 	while (1)
 	{
 		signal(SIGINT, signal_handler);

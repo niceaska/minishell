@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 15:35:05 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 17:58:27 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 15:17:07 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	**setenv_bulltin(char **parse, char **env)
 		print_env(env);
 		return (env);
 	}
+	parse[2] = (parse[2]) ? clear_path(parse[2]) : 0;
 	if (parse[2] != NULL && parse[3] != NULL)
 	{
 		write(2, "setenv: too many arguments.\n", 28);
@@ -116,7 +117,10 @@ char	**unsetenv_bulltin(char **parse, char **env)
 	ft_strcpy(str, parse[1]);
 	str[ft_strlen(str)] = (!ft_strchr(str, '=')) ? '=' : '\0';
 	if ((index = find_var(env, str)) == -1)
+	{
+		free(str);
 		return (env);
+	}
 	ret = ft_unsetenv(env, index);
 	free(str);
 	return (ret);

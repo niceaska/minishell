@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:20:45 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/03 17:39:08 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 15:04:15 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,12 @@ static char		*choose_pathname(char *path, t_env **e)
 	return (pathname);
 }
 
-void	process_cd(char *path, t_env **e)
-{
-	char	currpath[PATH_MAX];
-	char	*pathname;
-
-	ft_bzero((void *)currpath, PATH_MAX);
-	getcwd(currpath, PATH_MAX);
-	pathname = choose_pathname(path, e);
-	chdir(pathname);
-	(*e)->e = ft_setenv("OLDPWD", currpath, (*e)->e);
-	getcwd(currpath, PATH_MAX);
-	(*e)->e = ft_setenv("PWD", currpath, (*e)->e);
-	free(pathname);
-}
-
 static int	check_errors(char *arg)
 {
 	int error;
 
 	error = 0;
-	if (arg && arg[0] != '-' && arg[0] != '~'\
-		&& !(arg[0]  == '$' && arg[1]) \
-		&& access(arg, F_OK | R_OK))
+	if (arg && access(arg, F_OK | R_OK))
 	{
 		error = 1;
 		write(2, "cd: ", 4);
@@ -82,6 +65,26 @@ static int	check_errors(char *arg)
 	return (error);
 }
 
+void	process_cd(char *path, t_env **e)
+{
+	char	currpath[PATH_MAX];
+	char	*pathname;
+
+	ft_bzero((void *)currpath, PATH_MAX);
+	getcwd(currpath, PATH_MAX);
+	pathname = choose_pathname(path, e);
+	if (check_errors(pathname))
+	{
+		free(pathname);
+		return ;
+	}
+	chdir(pathname);
+	(*e)->e = ft_setenv("OLDPWD", currpath, (*e)->e);
+	getcwd(currpath, PATH_MAX);
+	(*e)->e = ft_setenv("PWD", currpath, (*e)->e);
+	free(pathname);
+}
+
 void	bulltin_cd(char **parse, t_env **e)
 {
 	struct stat		st;
@@ -91,14 +94,11 @@ void	bulltin_cd(char **parse, t_env **e)
 		write(2, "cd: too many arguments\n", 23);
 		return ;
 	}
-	parse[1] = (parse[1]) ? clear_path(parse[1]) : 0;
-	if (check_errors(parse[1]))
-		return ;
-	stat(parse[1], &st);
-	if (!S_ISDIR(st.st_mode) && !S_ISLNK(st.st_mode))
-	{
-		write(2, "cd: not a directory\n", 20);
-		return ;
-	}
+	if (parse[1] && (stat(parse[1], &st)) != -1)
+		if (!S_ISDIR(st.st_mode) && !S_ISLNK(st.st_mode))
+		{
+			write(2, "cd: not a directory\n", 20);
+			return ;
+		}
 	return (process_cd(parse[1], e));
 }
