@@ -6,14 +6,14 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 18:24:03 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/04 14:36:37 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 22:51:07 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-char	*looking_pathname(char *path, char **env,
-							char **path_var, char *swp)
+static char		*looking_pathname(char *path, char **env,
+									char **path_var, char *swp)
 {
 	int		i;
 
@@ -38,7 +38,7 @@ char	*looking_pathname(char *path, char **env,
 	return (path);
 }
 
-char	*find_rpath(char *path, char **env)
+static char		*find_rpath(char *path, char **env)
 {
 	if (ft_strchr(path, '/'))
 	{
@@ -57,7 +57,7 @@ char	*find_rpath(char *path, char **env)
 }
 
 
-void	exec_program(char *path, char **args, char **env)
+void			exec_program(char *path, char **args, char **env)
 {
 	pid_t pid;
 	pid_t ch_pid;
@@ -80,7 +80,7 @@ void	exec_program(char *path, char **args, char **env)
 		write(2, "minishell: fork error\n", 22);
 }
 
-void	process_exec(char **parse, t_env **e, int fl)
+void			process_exec(char **parse, t_env **e, int fl)
 {
 	char *pathname;
 

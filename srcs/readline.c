@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 10:58:40 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/04 17:53:38 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 22:49:02 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*g_commands[] = {
 	"man", "mv", "exit", "echo", (char *)NULL,
 };
 
-char	*args_generator(const char *text, int state)
+static char	*args_generator(const char *text, int state)
 {
     static int		index;
 	static int		len;

@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 10:53:36 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/04 13:56:56 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 22:46:42 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ char			**ag_compl(const char *text, int start, int end);
 void			signal_handler(int sign);
 void			signal_exec_handler(int sig);
 void			ft_exit(char **tab, char **parse, t_env *e, int fl);
-void			free_tab(char **tab);
 char			**cpy_envv(char **ev);
 void			exec_program(char *path, char **args, char **env);
 void			process_env_bull(char **parse, t_env **e, int j);

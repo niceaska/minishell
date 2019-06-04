@@ -6,13 +6,13 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 15:35:05 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/04 15:17:07 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 22:56:23 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**realloc_env(char **tab, char *str)
+static char		**realloc_env(char **tab, char *str)
 {
 	unsigned int	new_size;
 	char			**new;
@@ -33,7 +33,7 @@ char	**realloc_env(char **tab, char *str)
 	return (new);
 }
 
-char	**ft_setenv(char *var, char *value, char **env)
+char			**ft_setenv(char *var, char *value, char **env)
 {
 	unsigned int	len;
 	int				ret;
@@ -58,7 +58,7 @@ char	**ft_setenv(char *var, char *value, char **env)
 	return (env);
 }
 
-char	**setenv_bulltin(char **parse, char **env)
+char			**setenv_bulltin(char **parse, char **env)
 {
 	if (!parse[1])
 	{
@@ -81,7 +81,7 @@ char	**setenv_bulltin(char **parse, char **env)
 	return (ft_setenv(parse[1], parse[2], env));
 }
 
-char	**ft_unsetenv(char **env, int index)
+static char		**ft_unsetenv(char **env, int index)
 {
 	int		i;
 	int		j;
@@ -102,7 +102,7 @@ char	**ft_unsetenv(char **env, int index)
 	return (new);
 }
 
-char	**unsetenv_bulltin(char **parse, char **env)
+char			**unsetenv_bulltin(char **parse, char **env)
 {
 	char	*str;
 	char	**ret;

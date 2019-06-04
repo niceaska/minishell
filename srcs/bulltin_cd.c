@@ -6,7 +6,7 @@
 /*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 14:20:45 by lgigi             #+#    #+#             */
-/*   Updated: 2019/06/04 15:04:15 by lgigi            ###   ########.fr       */
+/*   Updated: 2019/06/04 22:52:33 by lgigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	check_errors(char *arg)
 	return (error);
 }
 
-void	process_cd(char *path, t_env **e)
+static void		process_cd(char *path, t_env **e)
 {
 	char	currpath[PATH_MAX];
 	char	*pathname;
