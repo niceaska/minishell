@@ -1,2 +1,2 @@
-# minishel
+# minishell
 Second unix project
