@@ -34,7 +34,7 @@ static void		fill_envv(char **parse, char **envv, int i)
 	free_tab(envv);
 }
 
-void		process_env_bull(char **parse, t_env **e, int j)
+void			process_env_bull(char **parse, t_env **e, int j)
 {
 	char	**evv;
 	int		size;

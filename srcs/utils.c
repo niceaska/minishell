@@ -17,7 +17,7 @@ void	signal_exec_handler(int sig)
 	if (sig == SIGINT)
 		write(1, "\n", 1);
 }
- 
+
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)

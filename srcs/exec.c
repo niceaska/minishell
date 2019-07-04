@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static char		*looking_pathname(char *path, char **env,
 									char **path_var, char *swp)
@@ -55,7 +55,6 @@ static char		*find_rpath(char *path, char **env)
 	}
 	return (looking_pathname(path, env, NULL, NULL));
 }
-
 
 void			exec_program(char *path, char **args, char **env)
 {

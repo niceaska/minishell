@@ -21,9 +21,7 @@
 # include <sys/dir.h>
 # include <limits.h>
 # include <sys/wait.h>
-# include <linux/limits.h>
-# include <stdio.h>
-# include <signal.h> 
+# include <signal.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 
@@ -41,8 +39,8 @@ int				print_currpath(char **parse);
 unsigned int	tab_size(char **tab);
 char			*add_slash(char *path);
 int				in_tab(char **tab, char *str);
-char 			**ft_setenv(char *var, char *value, char **env);
-void 			print_env(char **env);
+char			**ft_setenv(char *var, char *value, char **env);
+void			print_env(char **env);
 void			free_tab(char **tab);
 char			**setenv_bulltin(char **parse, char **env);
 char			**unsetenv_bulltin(char **parse, char **env);
@@ -61,7 +59,5 @@ char			**cpy_envv(char **ev);
 void			exec_program(char *path, char **args, char **env);
 void			process_env_bull(char **parse, t_env **e, int j);
 void			process_exit(char **tab, char **parse, t_env *e);
-
-
 
 #endif

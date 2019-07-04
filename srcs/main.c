@@ -79,7 +79,7 @@ static void		process_input(char **tab, t_env **env)
 {
 	char	**parse;
 	int		i;
-	
+
 	i = -1;
 	while (tab[++i])
 	{

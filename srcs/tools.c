@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 char			*get_pathname(char **e, char *var)
 {
@@ -49,7 +49,7 @@ unsigned int	tab_size(char **tab)
 	return (i);
 }
 
-int		find_var(char **tab, char *var)
+int				find_var(char **tab, char *var)
 {
 	int		i;
 	char	*find;
@@ -65,7 +65,7 @@ int		find_var(char **tab, char *var)
 	return (tab[i] ? i : -1);
 }
 
-char	**realloc_var(char **tab, char *str, int i)
+char			**realloc_var(char **tab, char *str, int i)
 {
 	char *swp;
 
@@ -75,16 +75,16 @@ char	**realloc_var(char **tab, char *str, int i)
 	return (tab);
 }
 
-char	*clear_path(char *path)
+char			*clear_path(char *path)
 {
 	char			*swp;
 	unsigned int	pth_s;
 
 	pth_s = ft_strlen(path);
 	if (path[0] != '"' && \
-		path[pth_s - 1] !=  '"')
+		path[pth_s - 1] != '"')
 		return (path);
-	if (path[pth_s - 1] ==  '"')
+	if (path[pth_s - 1] == '"')
 		path[pth_s - 1] = '\0';
 	if (*path == '"')
 	{

@@ -19,29 +19,29 @@ char	*g_commands[] = {
 	"man", "mv", "exit", "echo", (char *)NULL,
 };
 
-static char	*args_generator(const char *text, int state)
+static char		*args_generator(const char *text, int state)
 {
-    static int		index;
+	static int		index;
 	static int		len;
-    char			*command;
+	char			*command;
 
-    if (!state)
+	if (!state)
 	{
-        index = 0;
-        len = ft_strlen(text);
-    }
-    while ((command = g_commands[index++]))
+		index = 0;
+		len = ft_strlen(text);
+	}
+	while ((command = g_commands[index++]))
 	{
-        if (ft_strncmp(command, text, len) == 0)
-            return (ft_strdup(command));
-    }
-    return (0);
+		if (ft_strncmp(command, text, len) == 0)
+			return (ft_strdup(command));
+	}
+	return (0);
 }
 
-char	**ag_compl(const char *text, int start, int end)
+char			**ag_compl(const char *text, int start, int end)
 {
-    rl_attempted_completion_over = 0;
-    (void)end;
-    return (!start ?
+	rl_attempted_completion_over = 0;
+	(void)end;
+	return (!start ?
 		rl_completion_matches(text, args_generator) : 0);
 }

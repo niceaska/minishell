@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 void	ft_exit(char **tab, char **parse, t_env *e, int fl)
 {
 	if (tab)

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-char	*add_slash(char *path)
+char			*add_slash(char *path)
 {
 	char *swp;
 
@@ -44,7 +44,7 @@ static char		*choose_pathname(char *path, t_env **e)
 	return (pathname);
 }
 
-static int	check_errors(char *arg)
+static int		check_errors(char *arg)
 {
 	int error;
 
@@ -85,7 +85,7 @@ static void		process_cd(char *path, t_env **e)
 	free(pathname);
 }
 
-void	bulltin_cd(char **parse, t_env **e)
+void			bulltin_cd(char **parse, t_env **e)
 {
 	struct stat		st;
 
